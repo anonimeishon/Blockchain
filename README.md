@@ -34,3 +34,9 @@ o, tambien puede ser visualizada de la siguiente manera: </br>
 
 $ curl -X GET http://127.0.0.1:8000/chain
 </br>
+
+## Funcionamiento de la app
+
+<img width=“964” alt=“java 8 and prio java 8  array review example” src=“https://github.com/anonimeishon/Blockchain/blob/master/Untitled%20Diagram.png?raw=true 6”>  </br>
+
+
