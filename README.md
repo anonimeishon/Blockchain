@@ -37,6 +37,30 @@ $ curl -X GET http://127.0.0.1:8000/chain
 
 ## Funcionamiento de la app
 
-<img width=“964” alt=“java 8 and prio java 8  array review example” src=“https://github.com/anonimeishon/Blockchain/blob/master/Untitled%20Diagram.png?raw=true 6”>  </br>
 
+- Actualmente para usar la app de manera correcta, hay que conectarse desde la maquina que corre la app principal, en su ruta principal </br>
+
+![](images/Annotation%202020-06-04%20003022.jpg)
+
+Agregar algun dato al formulario, publicarlo, y clickear en minar. </br>
+Lo que debe hacer que los nodos presentes en la app empiecen a calcular el nonce y publiquen en la base de datos el bloque y sus datos pertinentes. </br>
+
+- Para verificar los hashes de los bloques minados, acceder a la ruta /chain en uno de los nodos.
+
+## Funcionamiento del codigo
+
+![](images/Untitled%20Diagram.png)
+
+</br>
+
+- Block </br>
+index: es la id del bloque </br>
+transactions: es la lista de las transacciones en el bloque </br>
+timestamp: la fecha de generacion del bloque </br>
+
+compute_hash(): Metodo para calcular el nonce (Numero que cambia con cada transaccion o bloque que se quiera minar, esto se hace para añadir dificultad al generar un bloque o transaccion nueva.) </br>
+
+- Blockchain </br>
+chain: Lista de los bloques agregados </br>
+difficulty: dificultad del nonce (Para esta app se uso un metodo de proof of work bastante sencillo, la idea es que cada hash generado deba tener cierto numero de 0 al comienzo, con este valor de dificultad, podemos aumentar o disminuir el numero de 0 necesarios.) </br>
 
