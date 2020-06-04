@@ -53,19 +53,19 @@ Lo que debe hacer que los nodos presentes en la app empiecen a calcular el nonce
 
 </br>
 
-- Block </br>
-index: es la id del bloque </br>
-transactions: es la lista de las transacciones en el bloque </br>
-timestamp: la fecha de generacion del bloque </br>
-compute_hash(): Metodo para calcular el nonce (Numero que cambia con cada transaccion o bloque que se quiera minar, esto se hace para añadir dificultad al generar un bloque o transaccion nueva.) </br>
+### Block </br>
+- index: es la id del bloque </br>
+- transactions: es la lista de las transacciones en el bloque </br>
+- timestamp: la fecha de generacion del bloque </br>
+- compute_hash(): Metodo para calcular el nonce (Numero que cambia con cada transaccion o bloque que se quiera minar, esto se hace para -añadir dificultad al generar un bloque o transaccion nueva.) </br>
 
-- Blockchain </br>
-chain: Lista de los bloques agregados </br>
-difficulty: dificultad del nonce (Para esta app se uso un metodo de proof of work bastante sencillo, la idea es que cada hash generado deba tener cierto numero de 0 al comienzo, con este valor de dificultad, podemos aumentar o disminuir el numero de 0 necesarios.) </br>
-create_genesis_block(): crea un bloque con datos predeterminados para que el primer bloque generado oficialmente por la app pueda estar conectado a este  </br>
-last_block(): retorna la informacion del ultimo bloque añadido. </br>
-proof_of_work(): dificultad que se añade al calcular cada hash para evitar posibles alteraciones por externos al blockchain.
-add_block():revisa el proof of work y si evidentemente el bloque esta unido al anterior bloque para asi poder agregarlos a la DB.
-is_valid_proof():llamada por add_block para revisar si el proof of work es valido.
-add_new_transaction():Pila de transacciones sin minar.
-mine(): En esta funcion se hace todo el trabajo de encadenar los bloques entre si, calcular el nonce, y crear el bloque.
+### Blockchain </br>
+- chain: Lista de los bloques agregados </br>
+- difficulty: dificultad del nonce (Para esta app se uso un metodo de proof of work bastante sencillo, la idea es que cada hash generado deba tener cierto numero de 0 al comienzo, con este valor de dificultad, podemos aumentar o disminuir el numero de 0 necesarios.) </br>
+- create_genesis_block(): crea un bloque con datos predeterminados para que el primer bloque generado oficialmente por la app pueda estar conectado a este  </br>
+- last_block(): retorna la informacion del ultimo bloque añadido. </br>
+- proof_of_work(): dificultad que se añade al calcular cada hash para evitar posibles alteraciones por externos al blockchain.
+- add_block():revisa el proof of work y si evidentemente el bloque esta unido al anterior bloque para asi poder agregarlos a la DB.
+- is_valid_proof():llamada por add_block para revisar si el proof of work es valido.
+- add_new_transaction():Pila de transacciones sin minar.
+- mine(): En esta funcion se hace todo el trabajo de encadenar los bloques entre si, calcular el nonce, y crear el bloque.
