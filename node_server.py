@@ -2,8 +2,15 @@ from hashlib import sha256
 import json
 import time
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import requests
+import pymongo
+from bson import ObjectId
+
+myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+
+mydb = myclient["mydatabase"]
+mycol = mydb["block"]
 
 
 class Block:
@@ -128,6 +135,18 @@ class Blockchain:
                           previous_hash=last_block.hash)
 
         proof = self.proof_of_work(new_block)
+        ##############################################################
+        # vainas de la db
+        x = mycol.insert_one({
+            'index': new_block.index,
+            'transactions': new_block.transactions,
+            'timestamp': new_block.timestamp,
+            'previous_hash': new_block.previous_hash,
+            'nonce': new_block.nonce,
+            'hash': new_block.compute_hash()
+        })
+        ####
+
         self.add_block(new_block, proof)
 
         self.unconfirmed_transactions = []
@@ -147,7 +166,7 @@ peers = set()
 
 # endpoint to submit a new transaction. This will be used by
 # our application to add new data (posts) to the blockchain
-@app.route('/new_transaction', methods=['POST'])
+@ app.route('/new_transaction', methods=['POST'])
 def new_transaction():
     tx_data = request.get_json()
     required_fields = ["author", "content"]
@@ -166,20 +185,24 @@ def new_transaction():
 # endpoint to return the node's copy of the chain.
 # Our application will be using this endpoint to query
 # all the posts to display.
-@app.route('/chain', methods=['GET'])
+@ app.route('/chain', methods=['GET'])
 def get_chain():
     chain_data = []
-    for block in blockchain.chain:
-        chain_data.append(block.__dict__)
+    blocks = mycol.find()
+    for block in blocks:
+        block.pop('_id')
+        chain_data.append({**block})
+
     return json.dumps({"length": len(chain_data),
                        "chain": chain_data,
                        "peers": list(peers)})
 
-
 # endpoint to request the node to mine the unconfirmed
 # transactions (if any). We'll be using it to initiate
 # a command to mine from our application itself.
-@app.route('/mine', methods=['GET'])
+
+
+@ app.route('/mine', methods=['GET'])
 def mine_unconfirmed_transactions():
     result = blockchain.mine()
     if not result:
@@ -195,7 +218,7 @@ def mine_unconfirmed_transactions():
 
 
 # endpoint to add new peers to the network.
-@app.route('/register_node', methods=['POST'])
+@ app.route('/register_node', methods=['POST'])
 def register_new_peers():
     node_address = request.get_json()["node_address"]
     if not node_address:
@@ -209,7 +232,7 @@ def register_new_peers():
     return get_chain()
 
 
-@app.route('/register_with', methods=['POST'])
+@ app.route('/register_with', methods=['POST'])
 def register_with_existing_node():
     """
     Internally calls the `register_node` endpoint to
@@ -324,4 +347,4 @@ def announce_new_block(block):
                       headers=headers)
 
 # Uncomment this line if you want to specify the port number in the code
-#app.run(debug=True, port=8000)
+# app.run(debug=True, port=8000)
