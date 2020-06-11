@@ -1,13 +1,14 @@
 from hashlib import sha256
 import json
 import time
-
+import urllib.parse
 from flask import Flask, request, jsonify
 import requests
 import pymongo
-from bson import ObjectId
-
-myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+username = urllib.parse.quote_plus('block')
+password = urllib.parse.quote_plus('block')
+myclient = pymongo.MongoClient(
+    "mongodb://%s:%s@database" % (username, password))
 
 mydb = myclient["mydatabase"]
 mycol = mydb["block"]
@@ -346,5 +347,6 @@ def announce_new_block(block):
                       data=json.dumps(block.__dict__, sort_keys=True),
                       headers=headers)
 
+
 # Uncomment this line if you want to specify the port number in the code
-# app.run(debug=True, port=8000)
+app.run(debug=True, host='0.0.0.0', port=8000)

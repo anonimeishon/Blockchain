@@ -1,0 +1,44 @@
+version: "3"
+services:
+  frontend:
+    build: 
+      context: .
+      dockerfile: front.Dockerfile
+    ports:
+      - "5000:5000"
+    container_name: "blockchain-frontend"
+
+    links:
+      - database
+      - backend
+  backend:
+    container_name: "blockchain-backend"
+    build: 
+      context: .
+      dockerfile: back.Dockerfile
+    ports:
+      - "8000:8000"
+    links:
+      - database
+  database:
+    image: mongo
+    container_name: "mongo-database"
+    environment: 
+      MONGO_INITDB_DATABASE : blockchain
+      MONGO_INITDB_ROOT_USERNAME : block
+      MONGO_INITDB_ROOT_PASSWORD : block
+#    ports:
+#      - "27017-27019:27017-27019"
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./mongo-volume:/data/db
+  reverse:
+    container_name: reverse
+    hostname: reverse
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - <path/to/your/config>:/etc/nginx
+      - <path/to/your/certs>:/etc/ssl/private
