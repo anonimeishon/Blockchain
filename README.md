@@ -2,6 +2,9 @@
 Esta app es un intento por adaptar una app blockchain bastante sencilla proporcionada por IBM como forma de tutorial a un blockchain de diplomas de graduados.
 </br>Link de IBM  --> https://developer.ibm.com/technologies/blockchain/tutorials/develop-a-blockchain-application-from-scratch-in-python/
 
+## Instalar y correr con docker
+- Clonar repositorio </br>
+$ docker-compose up --build
 
 ## Instalar y correr por primera vez
 - Clonar el repositorio: </br>
