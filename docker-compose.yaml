@@ -32,13 +32,13 @@ services:
     volumes:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
       - ./mongo-volume:/data/db
-  reverse:
-    container_name: reverse
-    hostname: reverse
-    image: nginx
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - <path/to/your/config>:/etc/nginx
-      - <path/to/your/certs>:/etc/ssl/private
+#  reverse:
+#    container_name: reverse
+#    hostname: reverse
+#    image: nginx
+#    ports:
+#      - 80:80
+#      - 443:443
+#    volumes:
+#      - ./config:/etc/nginx
+#      - ./certs:/etc/ssl/private
